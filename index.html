@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EVRYWHR — Creative Travel Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Montserrat:wght@300..700&family=Syne:wght@500..800&family=Hanken+Grotesk:wght@300..700&family=Caveat:wght@400..700&family=Special+Elite&family=Oswald:wght@400..700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { background: oklch(0.984 0.004 170); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  ::selection { background: oklch(0.62 0.10 200 / 0.22); }
+  a { -webkit-tap-highlight-color: transparent; }
+
+  @keyframes floaty   { from { transform: translateY(0); } to { transform: translateY(calc(-1 * var(--amt, 8px))); } }
+  @keyframes eqbar    { from { height: 6px; } to { height: 100%; } }
+  @keyframes marquee  { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes fadein   { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes panelin  { from { opacity: 0; transform: translateY(16px) scale(0.98); } to { opacity: 1; transform: none; } }
+  @keyframes pinpulse { 0%,100% { box-shadow: 0 0 0 3px transparent; } 50% { box-shadow: 0 0 0 6px oklch(0.62 0.10 200 / 0.22); } }
+  @keyframes grainshift {
+    0% { transform: translate(0,0); } 33% { transform: translate(-6%,4%); }
+    66% { transform: translate(5%,-5%); } 100% { transform: translate(0,0); }
+  }
+
+  /* tweaks panel scrollbar polish */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: oklch(0.45 0.03 190 / 0.3); border-radius: 999px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<!-- MailerLite Universal (enables ml('show', ...) popup triggers) -->
+<script>
+  (function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[])
+  .push(arguments);},l=d.createElement(e),l.async=1,l.src=u,
+  n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})
+  (window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
+  ml('account', '2464597');
+</script>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script src="data.js?v=95"></script>
+<script src="data-ext.js?v=110"></script>
+<script type="text/babel" src="tweaks-panel.jsx?v=90"></script>
+<script type="text/babel" src="ui.jsx?v=90"></script>
+<script type="text/babel" src="lore-icons.jsx?v=90"></script>
+<script type="text/babel" src="lore.jsx?v=90"></script>
+<script type="text/babel" src="projects.jsx?v=92"></script>
+<script type="text/babel" src="work.jsx?v=99"></script>
+<script type="text/babel" src="shop.jsx?v=90"></script>
+<script type="text/babel" src="dispatches.jsx?v=115"></script>
+<script type="text/babel" src="legal.jsx?v=5"></script>
+<script type="text/babel" src="app.jsx?v=101"></script>
+</body>
+</html>
