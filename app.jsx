@@ -385,10 +385,29 @@ function Panel({ t, setTweak }) {
   );
 }
 
+// ---------- URL <-> view routing (so browser Back / Forward buttons work) ----
+const ROUTE_VIEWS = ["home", "projects", "project", "dispatches", "dispatch", "work", "privacy", "terms", "accessibility"];
+function viewToHash(name, id) {
+  if (!name || name === "home") return "home";
+  return id ? name + "/" + encodeURIComponent(id) : name;
+}
+function parseHash() {
+  const raw = (window.location.hash || "").replace(/^#\/?/, "");
+  if (!raw) return { name: "home" };
+  const [name, id] = raw.split("/");
+  if (name === "lore") return { name: "home", lore: true };
+  if (!ROUTE_VIEWS.includes(name)) return { name: "home" };
+  return { name, id: id ? decodeURIComponent(id) : undefined };
+}
+function scrollToLore() {
+  const el = document.getElementById("lore");
+  if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 64, behavior: "smooth" });
+}
+
 // ---------- App --------------------------------------------------------------
 function App() {
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
-  const [view, setView] = useState({ name: "home" });
+  const [view, setView] = useState(() => { const v = parseHash(); return { name: v.name || "home", id: v.id }; });
   const [cart, setCart] = useState({});
   const [cartOpen, setCartOpen] = useState(false);
 
@@ -406,14 +425,33 @@ function App() {
     }
     if (name === "lore") {
       setView({ name: "home" });
-      setTimeout(() => { const el = document.getElementById("lore");
-        if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 64, behavior: "smooth" }); }, 60);
+      if (window.location.hash !== "#lore") window.history.pushState({ name: "home", lore: true }, "", "#lore");
+      setTimeout(scrollToLore, 60);
       return;
     }
     setView({ name, id });
+    const h = "#" + viewToHash(name, id);
+    if (window.location.hash !== h) window.history.pushState({ name, id }, "", h);
     window.scrollTo({ top: 0 });
   }, []);
   const openProject = (id) => go("project", id);
+
+  // Sync the rendered view with browser history (Back / Forward + refresh).
+  useEffect(() => {
+    const v0 = parseHash();
+    window.history.replaceState(
+      v0.lore ? { name: "home", lore: true } : { name: v0.name || "home", id: v0.id },
+      "", window.location.hash || "#home"
+    );
+    const onPop = (e) => {
+      const v = (e.state && e.state.name) ? e.state : parseHash();
+      if (v.lore) { setView({ name: "home" }); setTimeout(scrollToLore, 60); return; }
+      setView({ name: v.name || "home", id: v.id });
+      window.scrollTo({ top: 0 });
+    };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
 
   const addToCart = (p) => { setCart((c) => ({ ...c, [p.id]: { ...p, qty: (c[p.id]?.qty || 0) + 1 } })); setCartOpen(true); };
   const changeQty = (id, d) => setCart((c) => {
